@@ -2,7 +2,6 @@ package lqt.ltqland
 
 trait Problem {
   type City = String
-
   def distanceThroughCities(cities: City*): String
 
   def totalPathsWithBoundedStops(from: City, to: City, maxStops: Int): Int

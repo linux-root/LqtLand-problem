@@ -4,7 +4,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 import ltq.digraph.Digraph
 import ltq.digraph.Digraph.{Edge, Path}
 
-object Solution extends Problem with Configuration {
+trait Solution extends Problem with Configuration {
 
   override protected def config: Config = ConfigFactory.load()
 
