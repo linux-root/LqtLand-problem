@@ -1,14 +1,16 @@
-### Evaluation for input : “AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7”
- Solution can be found at test suite `LtqLandSuite`
+# Solution
+ 
+ *Evaluation for input : “AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7”* <br>
+ **Solution** can be found at test suite **`LtqLandSuite`**
 
- ### The local commuter railroad services a number of towns in LtqLand.
-
+<br><br>
+# Problem
+ The local commuter railroad services a number of towns in LtqLand.
 Because of monetary concerns, all of the tracks are 'one-way.'
 
  That is, a route from “StructuringTown” to “BoTown” does not imply the existence of a route from “BoTown” to “StructuringTown”.
 
  In fact, even if both of these routes do happen to exist, they are distinct and are not necessarily the same distance!
-
 
 
  The purpose of this problem is to help the railroad provide its customers with information about the routes.
@@ -22,18 +24,15 @@ Because of monetary concerns, all of the tracks are 'one-way.'
 
  A given route will never appear more than once, and for a given route, the starting and ending town will not be the same town.
 
- è AB5 = a route From town “A” To town “B” that has a distance of “5”.
+ AB5 = a route From town “A” To town “B” that has a distance of “5”.
 
  This Input is the Current road MAP of LtqLand : “AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7”
   Please consider it as a configuration of your system.
 
 
-
  Output:
 
  For test input 1 through 5, if no such route exists, output 'NO SUCH ROUTE'. Otherwise, follow the route as given; do not make any extra stops! For example, the first problem means to start at city A, then travel directly to city B (a distance of 5), then directly to city C (a distance of 4).
-
-
 
  1. The distance of the route A-B-C.
 
@@ -54,5 +53,3 @@ Because of monetary concerns, all of the tracks are 'one-way.'
  9. The length of the shortest route (in terms of distance to travel) from B to B.
 
  10. The number of different routes from C to C with a distance of less than 30. In the sample data, the trips are: CDC, CEBC, CEBCDC, CDCEBC, CDEBC, CEBCEBC, CEBCEBCEBC.
-      (Lazy list)
- 
