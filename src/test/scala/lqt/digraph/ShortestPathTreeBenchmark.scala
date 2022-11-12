@@ -18,7 +18,7 @@ trait ShortestPathTreeBenchmark[T] extends AnyWordSpec with ScalaCheckPropertyCh
 
   protected def createTree(root: T, graph: Digraph[T]): ShortestPathTree[T]
 
-  protected def totalVertices: Int = 10
+  protected def totalVertices: Int = 10000
 
   protected def expectedMaxExecutionTimeInMillis: Long
 
