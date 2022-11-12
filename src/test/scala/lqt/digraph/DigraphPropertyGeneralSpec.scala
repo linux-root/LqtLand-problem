@@ -4,22 +4,47 @@ import ltq.digraph.Digraph
 import ltq.digraph.Digraph.{Edge, Weight}
 import org.scalacheck.Gen
 
+import scala.annotation.tailrec
+
 trait DigraphPropertyGeneralSpec {
   val randomWeight: Gen[Weight] = Gen.chooseNum(1, 500)
 
   def genConnectedDigraph[T: Gen]: Gen[Digraph[T]] = {
+    for {
+      totalVertices <- Gen.chooseNum(10, 100)
+      graph <- genConnectedDigraph[T](totalVertices, logProgress = false)
+    } yield graph
+  }
+
+  def genConnectedDigraph[T: Gen](totalVertices: Int, logProgress: Boolean = true): Gen[Digraph[T]] = {
+
+    def log(n: Int): Unit = {
+      val luckyNumber = 101
+      if (n % luckyNumber == 0) {
+        println(s"${Console.RESET} Generated graph with ${Console.YELLOW} $n ${Console.RESET} vertices ${Console.GREEN} (${n*100/totalVertices} %)...")
+      }
+    }
+
+    @tailrec
     def extendGraph(graph: Digraph[T]): Gen[Digraph[T]] = {
-      println(s"extendGraph $graph")
-      for {
-        nextEdge <- genEdge(graph)
-        graph <- Gen.oneOf(Gen.const(graph), extendGraph(graph.addEdge(nextEdge)))
-      } yield graph
+      if (logProgress) log(graph.vertices.size)
+      if (graph.vertices.size == totalVertices) {
+        graph
+      } else {
+        genEdge(graph).sample match {
+          case Some(nextEdge) =>
+            extendGraph(graph.addEdge(nextEdge))
+          case None =>
+            graph
+        }
+      }
     }
 
     for {
       seed <- randomSingleVertexGraph
       graph <- extendGraph(seed)
     } yield graph
+
   }
 
   def randomSingleVertexGraph[T: Gen]: Gen[Digraph[T]] = {

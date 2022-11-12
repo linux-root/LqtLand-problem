@@ -1,12 +1,11 @@
 package ltq.digraph
 
 import ltq.digraph.Digraph.Weight
+import ltq.digraph.dijkstra.DijkstraAlgorithmWithPriorityQueue
 
 
 trait ShortestPathTree[T] {
   def root: T
-
-  protected def graph: Digraph[T]
 
   def distanceTo(vertex: T): Option[Weight]
 
@@ -14,9 +13,5 @@ trait ShortestPathTree[T] {
 }
 
 object ShortestPathTree {
-  def apply[T](v: T, g: Digraph[T]): ShortestPathTree[T] = new DijkstraAlgorithm[T] {
-    override val root: T = v
-
-    override protected val graph: Digraph[T] = g
-  }
+  def apply[T](v: T, g: Digraph[T]): ShortestPathTree[T] = DijkstraAlgorithmWithPriorityQueue(v, g)
 }

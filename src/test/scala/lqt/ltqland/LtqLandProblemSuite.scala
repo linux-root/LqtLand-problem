@@ -6,7 +6,8 @@ import org.scalatest.matchers.should.Matchers
 /**
  * Describing the problem of LtqLand
  */
-trait LtqLandProblemSuite extends Problem with AnyFunSuiteLike with Matchers {
+trait LtqLandProblemSuite extends AnyFunSuiteLike with Matchers {
+  self: Problem =>
 
   test("1. The distance of the route A-B-C") {
     this.distanceThroughCities("A", "B", "C") shouldBe "9"
