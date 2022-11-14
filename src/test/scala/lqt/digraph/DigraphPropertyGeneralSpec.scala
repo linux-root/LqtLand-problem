@@ -13,7 +13,10 @@ trait DigraphPropertyGeneralSpec {
     for {
       totalVertices <- Gen.chooseNum(10, 500)
       graph <- genConnectedDigraph[T](totalVertices, logProgress = false)
-    } yield graph
+    } yield {
+      println(s"Created graph with ${graph.vertices.size} vertices")
+      graph
+    }
   }
 
   def genConnectedDigraph[T: Gen](totalVertices: Int, logProgress: Boolean = true): Gen[Digraph[T]] = {
@@ -58,16 +61,27 @@ trait DigraphPropertyGeneralSpec {
   private def genEdge[T: Gen](graph: Digraph[T]): Gen[Edge[T]] = {
     val vertices = graph.vertices
     for {
-      newValue <- implicitly[Gen[T]].filterNot(vertices.contains)
-      vertex1 <- Gen.oneOf(vertices)
-      vertex2 <- vertices.filterNot(_ == vertex1).find(v => !graph.directlyConnected(vertex1, v) || !graph.directlyConnected(v, vertex1)) match {
-        case None =>
-          Gen.const(newValue)
-        case Some(v) =>
-          Gen.oneOf(v, newValue)
-      }
       weight <- randomWeight
-      edge <- Gen.oneOf(Edge(vertex2, vertex1, weight), Edge(vertex1, vertex2, weight))
+      vertex1 <- Gen.oneOf(vertices)
+      newValue <- implicitly[Gen[T]].filterNot(vertices.contains)
+      edgeWithNewValue <- Gen.oneOf(Edge(newValue, vertex1, weight), Edge(vertex1, newValue, weight))
+      edge <- vertices.filterNot(_ == vertex1).find(v => !graph.directlyConnected(vertex1, v) || !graph.directlyConnected(v, vertex1)) match {
+        case None =>
+          Gen.const(edgeWithNewValue)
+        case Some(vertex2) =>
+          val edge21 = Edge(vertex2, vertex1, weight)
+          val edge12 = Edge(vertex1, vertex2, weight)
+          if (graph.directlyConnected(vertex1, vertex2)) {
+            Gen.oneOf(edge21, edge21, edgeWithNewValue)
+          } else if (graph.directlyConnected(vertex2, vertex1)) {
+            Gen.oneOf(edge12, edge12, edgeWithNewValue)
+          } else {
+            Gen.frequency(
+              2 -> Gen.oneOf(edge12, edge21),  // increase probability creating cycle in graph
+              1 -> Gen.const(edgeWithNewValue)
+            )
+          }
+      }
     } yield edge
   }
 
