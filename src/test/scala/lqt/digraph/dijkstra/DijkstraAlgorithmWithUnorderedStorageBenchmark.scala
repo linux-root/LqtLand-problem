@@ -17,5 +17,5 @@ class DijkstraAlgorithmWithUnorderedStorageBenchmark extends ShortestPathTreeBen
     DijkstraAlgorithmWithUnorderedStorage(root, graph)
   }
 
-  override protected val expectedMaxExecutionTimeInMillis: Long = 500
+  override protected val expectedMaxExecutionTimeInMillis: Long = 10000
 }

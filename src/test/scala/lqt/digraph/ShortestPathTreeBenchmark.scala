@@ -18,7 +18,7 @@ trait ShortestPathTreeBenchmark[T] extends AnyWordSpec with ScalaCheckPropertyCh
 
   protected def createTree(root: T, graph: Digraph[T]): ShortestPathTree[T]
 
-  protected def totalVertices: Int = 10000
+  protected def totalVertices: Int = 2500
 
   protected def expectedMaxExecutionTimeInMillis: Long
 
@@ -34,11 +34,10 @@ trait ShortestPathTreeBenchmark[T] extends AnyWordSpec with ScalaCheckPropertyCh
   s"""Benchmark time to build Shortest-path tree of ${this.totalVertices} vertices
       Using algorithm : $algorithmName""" in {
     forAll(genConnectedDigraph[T](totalVertices)) { graph =>
-      val vertex = Random.shuffle(graph.vertices).head
-      val tree = this.createTree(graph.vertices.head, graph)
-      val (_, executionTimeInMillis) = timer(tree.predecessorOf(vertex))
+      val buildAndEvaluateTree: T => Unit = vertex => this.createTree(vertex, graph).predecessorOf(vertex)
+      val (_, executionTimeInMillis) = timer(graph.vertices.map(buildAndEvaluateTree))
       println(s"""__ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-            | It takes $executionTimeInMillis milliseconds, to build SPT in $algorithmName |
+            | It takes $executionTimeInMillis milliseconds, to build SPTs for ${this.totalVertices} vertices by $algorithmName |
            """)
       graph.vertices.size shouldBe totalVertices
       executionTimeInMillis should be <= this.expectedMaxExecutionTimeInMillis
