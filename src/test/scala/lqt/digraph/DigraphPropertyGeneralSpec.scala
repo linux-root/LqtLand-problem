@@ -7,11 +7,11 @@ import org.scalacheck.Gen
 import scala.annotation.tailrec
 
 trait DigraphPropertyGeneralSpec {
-  val randomWeight: Gen[Weight] = Gen.chooseNum(1, 500)
+  val randomWeight: Gen[Weight] = Gen.chooseNum(1, 10000)
 
   def genConnectedDigraph[T: Gen]: Gen[Digraph[T]] = {
     for {
-      totalVertices <- Gen.chooseNum(10, 100)
+      totalVertices <- Gen.chooseNum(10, 500)
       graph <- genConnectedDigraph[T](totalVertices, logProgress = false)
     } yield graph
   }
@@ -48,7 +48,6 @@ trait DigraphPropertyGeneralSpec {
   }
 
   def randomSingleVertexGraph[T: Gen]: Gen[Digraph[T]] = {
-    println("GenSingleVertex")
     for {
       start <- implicitly[Gen[T]]
       end <- implicitly[Gen[T]]
