@@ -1,7 +1,7 @@
 package ltq.digraph
 
 import ltq.digraph.Digraph.Weight
-import ltq.digraph.dijkstra.DijkstraAlgorithmWithPriorityQueue
+import ltq.digraph.dijkstra.DijkstraAlgorithmWithSortedSet
 
 
 trait ShortestPathTree[T] {
@@ -13,5 +13,5 @@ trait ShortestPathTree[T] {
 }
 
 object ShortestPathTree {
-  def apply[T](v: T, g: Digraph[T]): ShortestPathTree[T] = DijkstraAlgorithmWithPriorityQueue(v, g)
+  def apply[T](v: T, g: Digraph[T]): ShortestPathTree[T] = DijkstraAlgorithmWithSortedSet(v, g)
 }
