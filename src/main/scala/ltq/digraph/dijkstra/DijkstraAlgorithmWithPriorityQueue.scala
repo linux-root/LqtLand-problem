@@ -36,7 +36,9 @@ object DijkstraAlgorithmWithPriorityQueue {
 
     override def tail: ProcessStorage[T] = PriorityQueueStorage(values.tail)
 
-    override def add(xs: Iterable[(T, Weight)]): ProcessStorage[T] = PriorityQueueStorage(values ++ xs)
+    override def add(xs: Iterable[(T, Weight)]): ProcessStorage[T] ={
+      PriorityQueueStorage(values ++ xs)
+    }
 
     override def isEmpty: Boolean = values.isEmpty
   }

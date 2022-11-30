@@ -27,7 +27,7 @@ object DijkstraAlgorithmWithUnorderedStorage {
 
   case class UnorderedStorage[T](values: Map[T, Weight]) extends ProcessStorage[T] {
 
-    override def head: T =  values.head._1
+    override def head: T =  values.minBy(_._2)._1
 
     override def tail: ProcessStorage[T] = UnorderedStorage(values - head)
 

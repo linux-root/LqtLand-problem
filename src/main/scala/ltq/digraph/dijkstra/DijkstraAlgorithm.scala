@@ -30,7 +30,7 @@ trait DijkstraAlgorithm[T] {
   def root: T
 
   @tailrec
-  final def calculateTree(toBeExplored: ProcessStorage[T],
+  final protected def calculateTree(toBeExplored: ProcessStorage[T],
                           distances: ShortestDistances, tree: Predecessors): (ShortestDistances, Predecessors) = {
     if (toBeExplored.isEmpty) {
       (distances, tree)
@@ -38,7 +38,7 @@ trait DijkstraAlgorithm[T] {
       val currentVertex = toBeExplored.head
       val weight = distances(currentVertex)
       val neighbors = for {
-        (v, w) <- graph(currentVertex)
+        (v, w) <- graph(currentVertex).filter{case (vertex, _) => vertex != this.root}
         if weight + w < distances.getOrElse(v, MAX_WEIGHT)
       } yield v -> (weight + w)
 
