@@ -53,7 +53,7 @@ trait DigraphPropertyGeneralSpec {
   def randomSingleVertexGraph[T: Gen]: Gen[Digraph[T]] = {
     for {
       start <- implicitly[Gen[T]]
-      end <- implicitly[Gen[T]]
+      end <- implicitly[Gen[T]].filterNot(_ == start)
       weight <- randomWeight
     } yield Digraph(Set(Edge(start, end, weight)))
   }
