@@ -16,5 +16,5 @@ class DijkstraAlgorithmWithSortedSetBenchmark extends ShortestPathTreeBenchmark[
     DijkstraAlgorithmWithSortedSet(root, graph)
   }
 
-  override protected val expectedMaxExecutionTimeInMillis: Long = 50000
+  override protected val expectedMaxExecutionTimeInMillis: Long = 10000
 }

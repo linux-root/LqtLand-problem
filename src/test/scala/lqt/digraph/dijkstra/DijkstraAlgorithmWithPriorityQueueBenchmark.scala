@@ -16,5 +16,5 @@ class DijkstraAlgorithmWithPriorityQueueBenchmark extends ShortestPathTreeBenchm
     DijkstraAlgorithmWithPriorityQueue(root, graph)
   }
 
-  override protected val expectedMaxExecutionTimeInMillis: Long = 50000
+  override protected val expectedMaxExecutionTimeInMillis: Long = 60000
 }

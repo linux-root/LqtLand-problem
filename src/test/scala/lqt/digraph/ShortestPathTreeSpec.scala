@@ -1,7 +1,7 @@
 package lqt.digraph
 
 import ltq.digraph.Digraph.Edge
-import ltq.digraph.dijkstra.DijkstraAlgorithmWithUnorderedStorage
+import ltq.digraph.dijkstra.{DijkstraAlgorithmWithSortedSet, DijkstraAlgorithmWithUnorderedStorage}
 import ltq.digraph.{Digraph, ShortestPathTree}
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -34,8 +34,17 @@ class ShortestPathTreeSpec extends AnyWordSpec {
       val graph = Digraph(edges.toSet)
       val spt = DijkstraAlgorithmWithUnorderedStorage(root, graph)
 
-      spt.predecessorOf(root)
+    assert(ShortestPathTreePropertySpec.checkOptimalityCondition(spt, graph))
+  }
 
+  "Dijkstra Sorted Set correctness issue found by Property test" in {
+    val input ="""(JMW)--552-->(QPG) (KNQ)--436-->(JMW) (QPG)--1-->(JMW) (NPQ)--1-->(QPG)
+               (RGY)--10000-->(NPQ) (JMW)--10000-->(NPQ) (QPG)--1-->(NPQ) (NPQ)--10000-->(RGY)"""
+    val root = "QPG"
+    val edges = Edge.parseStrEdges(input)
+    val graph = Digraph(edges.toSet)
+    val spt = DijkstraAlgorithmWithSortedSet(root, graph)
+    assert(ShortestPathTreePropertySpec.checkOptimalityCondition(spt, graph))
   }
 
 }
