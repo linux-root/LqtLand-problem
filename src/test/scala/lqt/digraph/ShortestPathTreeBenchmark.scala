@@ -25,7 +25,7 @@ trait ShortestPathTreeBenchmark[T] extends AnyWordSpec with ScalaCheckPropertyCh
   implicit override val generatorDrivenConfig: PropertyCheckConfiguration =
     PropertyCheckConfiguration(minSuccessful = 1)
 
-  def timer[A](f: => A): (A, Long) = {
+  private def timer[A](f: => A): (A, Long) = {
     val start = System.currentTimeMillis()
     val result = f
     (result, System.currentTimeMillis() - start)
